@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeAlert - Mapa en Vivo</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; }
+        #map { width: 100%; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+        const firebaseConfig = {
+            apiKey: "AizaSyBgInBrapFxzkqamN0As5MjygK_RGOdN1A",
+            authDomain: "safealert-14f6f.firebaseapp.com",
+            projectId: "safealert-14f6f",
+            storageBucket: "safealert-14f6f.firebasestorage.app",
+            messagingSenderId: "638562348141",
+            appId: "1:638562348141:web:8a9abdcc12daf27d672364"
+        };
+        const app = initializeApp(firebaseConfig);
+    </script>
+</body>
+</html>
