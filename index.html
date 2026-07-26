@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
     <title>SafeAlert - Mapa en Vivo</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         html, body { height: 100%; margin: 0; padding: 0; }
         #map { width: 100%; height: 100vh; }
@@ -13,17 +13,39 @@
 <body>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script>
         const firebaseConfig = {
-            apiKey: "AizaSyBgInBrapFxzkqamN0As5MjygK_RGOdN1A",
+            apiKey: "AizaSyBgInBrapFxzkqamN0As5Mjygk_RGOdN1a",
             authDomain: "safealert-14f6f.firebaseapp.com",
-            projectId: "safealert-14f6f",
-            storageBucket: "safealert-14f6f.firebasestorage.app",
-            messagingSenderId: "638562348141",
-            appId: "1:638562348141:web:8a9abdcc12daf27d672364"
+            projectId: "safealert-14f6f"
         };
-        const app = initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        var map = L.map('map').setView([0, 0], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        var marker = null;
+        db.collection("ubicaciones_activas").document("dispositivo_actual").onSnapshot((doc) => {
+            if (doc.exists) {
+                var lat = doc.data().latitud;
+                var lon = doc.data().longitud;
+                if (lat && lon) {
+                    var latLng = [lat, lon];
+                    if (marker == null) {
+                        marker = L.marker(latLng).addTo(map);
+                        map.setView(latLng, 17);
+                    } else {
+                        marker.setLatLng(latLng);
+                        map.setView(latLng);
+                    }
+                }
+            }
+        });
     </script>
 </body>
+</html>
 </html>
